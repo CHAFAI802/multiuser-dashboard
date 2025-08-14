@@ -1,7 +1,8 @@
-# Django Multiuser Platform
+# Multiuser Dashboard & Chat - Django Project
 
-Plateforme multi-utilisateurs Django :
-- Auth par email (CustomUser)
-- Dashboard personnel
-- Chat / messagerie
-- Modules CRUD & paramètres utilisateurs
+## Description
+Application Django modulaire avec plusieurs apps :
+- **Accounts** : gestion des utilisateurs (inscription, connexion, déconnexion).
+- **Dashboard** : espace personnalisé avec opérations CRUD et préférences.
+- **Chat** : messagerie entre utilisateurs.
+
