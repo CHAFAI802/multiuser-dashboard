@@ -1,28 +1,42 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
-from .models import CustomUser
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 
-class SignUpForm(forms.ModelForm):
-    password1 = forms.CharField(label="Mot de passe", widget=forms.PasswordInput)
-    password2 = forms.CharField(label="Confirmer le mot de passe", widget=forms.PasswordInput)
+User = get_user_model()
+
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('email', 'first_name', 'last_name', 'password1', 'password2')
+
+
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(attrs={'autofocus': True})
+    )
 
     class Meta:
-        model = CustomUser
-        fields = ['email', 'first_name', 'last_name']
+        model = User
+        fields = ('email', 'password')
 
-    def clean_password2(self):
-        password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Les mots de passe ne correspondent pas.")
-        return password2
 
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
-        if commit:
-            user.save()
-        return user
 
-class LoginForm(AuthenticationForm):
-    username = forms.EmailField(label="Email")
+class EmailLoginForm(AuthenticationForm):
+    username = forms.EmailField(
+        label=_("Email"),
+        widget=forms.EmailInput(attrs={
+            'autofocus': True,
+            'placeholder': 'Votre email'
+        })
+    )
+
+    def confirm_login_allowed(self, user):
+        """Contrôle supplémentaire si besoin."""
+        if not user.is_active:
+            raise forms.ValidationError(
+                _("Ce compte est désactivé. Contactez l’administrateur."),
+                code='inactive',
+            )

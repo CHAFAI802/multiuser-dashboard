@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Déconnexion{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h2 class="card-title mb-4">Vous êtes déconnecté</h2>
+                    <p class="mb-4">Votre session a été fermée avec succès.</p>
+                    <a href="{% url 'accounts:login' %}" class="btn btn-primary">
+                        Se reconnecter
+                    </a>
+                    <a href="{% url 'dashboard:home' %}" class="btn btn-secondary ms-2">
+                        Retour à l'accueil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

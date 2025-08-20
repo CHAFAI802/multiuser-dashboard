@@ -3,9 +3,6 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def dashboard_home(request):
-    return render(request, "dashboard/home.html")
-
-@login_required
-def my_profile(request):
-    return render(request, "dashboard/profile.html")
-
+    """Tableau de bord personnalisé pour chaque utilisateur connecté."""
+    user = request.user  # accès direct à l’utilisateur
+    return render(request, "dashboard/dashboard.html", {"user": user})

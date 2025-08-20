@@ -24,8 +24,9 @@ def home_view(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),
-    path('accounts/', include('accounts.urls')),
+    path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
     path('dashboard/', include('dashboard.urls')),
-    path('chat/', include('chat.urls')),
-    path('settings/', include('settings_app.urls')),
+    #path('chat/', include('chat.urls')),
+    #path('settings/', include('settings_app.urls')),
 ]
+
